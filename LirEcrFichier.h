@@ -36,8 +36,8 @@ void LirEcrFichier::ecrire(Grille tabl, string path)
     f_out.close(); 
 }
 
-string LirEcrFichier::lire(string path) 
-{ 
+Grille LirEcrFichier::lire(string path) 
+{
     string line;
     this->message.clear();
   
