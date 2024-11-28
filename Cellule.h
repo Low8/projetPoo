@@ -1,14 +1,15 @@
 #include "Librairie.h"
+#include "ICellule.h"
 
-class Cellule
+class Cellule : public ICellule
 {
 private:
     bool etat;
 public:
     Cellule();
     ~Cellule();
-    bool estVivant();
-    void setEtat(bool etat);
+    bool estVivant() const override;
+    void setEtat(bool etat) override ;
 };
 
 Cellule::Cellule()
@@ -20,7 +21,7 @@ Cellule::~Cellule()
 {
 }
 
-bool Cellule::estVivant() {
+bool Cellule::estVivant() const {
     return etat;
 }
 

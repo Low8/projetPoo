@@ -1,6 +1,8 @@
+#include "Librairie.h"
 #include "Cellule.h"
+#include "IGrille.h"
 
-class Grille
+class Grille : public IGrille
 {
 private:
     vector<vector<Cellule>> table;
@@ -9,13 +11,13 @@ private:
 public:
     Grille(int ligne, int colonne);
     ~Grille();
-    void iniGrille();
-    void affiche();
-    int getNbLigne();
-    int getNbColonne();
-    void SetNbColonne(int);
-    void SetNbLigne(int);
-    Cellule getCellule(int x,int y);
+    void iniGrille() override;
+    void affiche() override;
+    int getNbLigne() const override;
+    int getNbColonne() const override;
+    void SetNbColonne(int)override;
+    void SetNbLigne(int)override;
+    Cellule getCellule(int x,int y) const override;
 };
 
 Grille::Grille(int ligne, int colonne) : nbLigne(ligne), nbColonne(colonne)
@@ -27,7 +29,7 @@ Grille::~Grille()
 {
 }
 
-void Grille::iniGrille() {
+void Grille::iniGrille()  {
     table = vector<vector<Cellule>>(nbLigne, vector<Cellule>(nbColonne));
 }
 
@@ -40,11 +42,11 @@ void Grille::affiche() {
     }
 }
 
-int Grille::getNbLigne() {
+int Grille::getNbLigne() const {
     return nbLigne;
 }
 
-int Grille::getNbColonne() {
+int Grille::getNbColonne() const {
     return nbColonne;
 }
 void Grille::SetNbColonne(int nbLigne) {
@@ -54,6 +56,6 @@ void Grille::SetNbLigne(int nbColonne) {
     this->nbColonne = nbColonne;
 }
 
-Cellule Grille::getCellule(int x,int y) {
+Cellule Grille::getCellule(int x,int y) const {
     return table[x][y];
 }
