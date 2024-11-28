@@ -10,6 +10,8 @@ public:
     virtual void SetNbColonne(int) const = 0;
     virtual void SetNbLigne(int) const = 0;
     virtual Cellule getCellule(int x,int y) const = 0;
+    virtual int adjacent(int i, int j, vector<vector<Cellule>>& vecteurs) const = 0;
+    virtual void genarationSuiv(vector<vector<Cellule>>& vecteurs) const = 0;
 
     virtual ~ICellule() = default;
 };

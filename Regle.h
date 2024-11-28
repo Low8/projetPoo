@@ -40,14 +40,6 @@ public:
         vecteurs = temp;
     }
 
-    void affiche(vector<vector<Cellule>>& vecteurs)  override {
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                cout << (vecteurs[i][j].estVivant() ? 1 : 0) << "\t";
-            }
-            cout << endl;
-        }
-    }
 };
 
 //note : dans le main:

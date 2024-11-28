@@ -59,3 +59,39 @@ void Grille::SetNbLigne(int nbColonne) {
 Cellule Grille::getCellule(int x,int y) const {
     return table[x][y];
 }
+
+int Grille :: adjacent(int i, int j, vector<vector<Cellule>>& vecteurs) {
+        int compt = 0;
+        for (int k = i - 1; k <= i + 1; k++) {
+            for (int q = j - 1; q <= j + 1; q++) {
+                if (k >= 0 && k < nbLigne && q >= 0 && q < nbColonne && !(k == i && q == j)) {
+                    if (vecteurs[k][q].estVivant()) {
+                        compt++;
+                    }
+                }
+            }
+        }
+        return compt;
+    }
+    
+    void Grille :: genarationSuiv(vector<vector<Cellule>>& vecteurs) {
+        vector<vector<Cellule>> temp(nbLigne, vector<Cellule>(nbColonne));
+        for (int i = 0; i < nbLigne; i++) {
+            for (int j = 0; j < nbColonne; j++) {
+                if (vecteurs[i][j].estVivant()) {
+                    if (adjacent(i, j, vecteurs) == 2 || adjacent(i, j, vecteurs) == 3) {
+                        temp[i][j].setEtat(true);
+                    } else {
+                        temp[i][j].setEtat(false);
+                    }
+                } else {
+                    if (adjacent(i, j, vecteurs) == 3) {
+                        temp[i][j].setEtat(true);
+                    } else {
+                        temp[i][j].setEtat(false);
+                    }
+                }
+            }
+        }
+        vecteurs = temp;
+    }
