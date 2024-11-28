@@ -24,11 +24,13 @@ void LirEcrFichier::ecrire(Grille tabl, string path)
         cerr << "Erreur : impossible d'ouvrir le fichier en écriture : " << path << endl;
         return;
     }
+    f_out << tabl.getNbLigne() << " " << tabl.getNbColonne() << endl;
+
     for (int y = 0; y < tabl.getNbLigne(); y++) {
         for (int x = 0; x < tabl.getNbColonne(); x++) {
-            f_out << (tabl.getCellule(x, y).estVivant() ? 'O' : '.') << ' ';
+            f_out << (tabl.getCellule(x, y).estVivant() ? 1 : 0) << ' ';
         }
-        f_out << std::endl;
+        f_out << endl;
     }
 
     f_out.close(); 
@@ -47,9 +49,11 @@ string LirEcrFichier::lire(string path)
     while (getline(f_in, line)) { 
         this->message.append(line);
     }
+
+
     f_in.close();
  
-    return this->message;
+    return 
 }
 
 
