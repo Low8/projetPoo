@@ -1,17 +1,35 @@
-#include "Librairie.h"
-#include "Grille.h"
+#pragma once;
+
+#include "Cellule.h"
+#include "ReglesClassiques.h"
+
 
 class IGrille{
+protected:
+    vector<vector<Cellule>> table;
+    int nbLigne;
+    int nbColonne;
+    ReglesClassiques regle;
 public:
-    virtual void iniGrille() const = 0;
-    virtual void affiche() const = 0;
-    virtual int getNbLigne() const = 0;
-    virtual int getNbColonne() const = 0;
-    virtual void SetNbColonne(int) const = 0;
-    virtual void SetNbLigne(int) const = 0;
-    virtual Cellule getCellule(int x,int y) const = 0;
-    virtual int adjacent(int i, int j, vector<vector<Cellule>>& vecteurs) const = 0;
-    virtual void genarationSuiv(vector<vector<Cellule>>& vecteurs) const = 0;
-
-    virtual ~ICellule() = default;
+    IGrille(int, int, ReglesClassiques);
+    virtual ~IGrille();
+    virtual void iniGrille() = 0;
+    virtual void affiche() = 0;
+    virtual int getNbLigne() = 0;
+    virtual int getNbColonne() = 0;
+    virtual void SetNbColonne(int) = 0;
+    virtual void SetNbLigne(int) = 0;
+    virtual Cellule getCellule(int,int) = 0;
+    virtual int adjacent(int, int) = 0;
+    virtual void genarationSuiv() = 0;
 };
+
+IGrille::IGrille(int nbligne, int nbcolonne, ReglesClassiques regle) : nbLigne(nbligne), nbColonne(nbcolonne), regle(regle)
+{  
+
+}
+
+IGrille::~IGrille()
+{
+    
+}

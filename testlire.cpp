@@ -1,4 +1,4 @@
-#include "Librairie.h"
+
 #include "Grille.h"
 
  
@@ -64,22 +64,22 @@ Grille LirEcrFichier::lire(const std::string& path)
 
 int main(void) 
 { 
- LirEcrFichier* fichier; 
- string path; 
- string message;
- string path2; 
- string message2;
- 
- 
- fichier = new LirEcrFichier(); 
- path = "/wsl.localhost/Ubuntu-22.04\\home\\game\\prosit2\\corbeille\\fichier_lire.txt";
- message = "bonjour"; 
- fichier->ecrire(message, path2); 
- message2 = fichier->lire(path); 
- 
- cout << message2 << endl; 
- 
- delete fichier; 
+    LirEcrFichier* fichier; 
+    string path; 
+    string message;
+    string path2; 
+    string message2;
+    
+    
+    fichier = new LirEcrFichier(); 
+    path = "/wsl.localhost/Ubuntu-22.04\\home\\game\\prosit2\\corbeille\\fichier_lire.txt";
+    message = "bonjour"; 
+    fichier->ecrire(message, path2); 
+    message2 = fichier->lire(path); 
+    
+    cout << message2 << endl; 
+    
+    delete fichier; 
  
     return 0; 
 }

@@ -1,24 +1,24 @@
-#include "Librairie.h"
+#pragma once
+
 #include "ICellule.h"
 
 class Cellule : public ICellule
 {
-private:
-    bool etat;
 public:
     Cellule();
-    ~Cellule();
+    ~Cellule() override;
     bool estVivant() const override;
     void setEtat(bool etat) override ;
 };
 
-Cellule::Cellule()
+Cellule::Cellule() : ICellule()
 {
-    etat = false;
+
 }
 
 Cellule::~Cellule()
 {
+
 }
 
 bool Cellule::estVivant() const {

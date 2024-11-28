@@ -1,32 +1,31 @@
-#include "Librairie.h"
-#include "Cellule.h"
+#pragma once;
+
 #include "IGrille.h"
 
 class Grille : public IGrille
 {
-private:
-    vector<vector<Cellule>> table;
-    int nbLigne;
-    int nbColonne;
 public:
-    Grille(int ligne, int colonne);
-    ~Grille();
+    Grille(int , int, ReglesClassiques);
+    ~Grille() override;
     void iniGrille() override;
     void affiche() override;
-    int getNbLigne() const override;
-    int getNbColonne() const override;
-    void SetNbColonne(int)override;
-    void SetNbLigne(int)override;
-    Cellule getCellule(int x,int y) const override;
+    int getNbLigne() override;
+    int getNbColonne() override;
+    void SetNbColonne(int) override;
+    void SetNbLigne(int) override;
+    Cellule getCellule(int,int) override;
+    int adjacent(int, int) override;
+    void genarationSuiv() override;
 };
 
-Grille::Grille(int ligne, int colonne) : nbLigne(ligne), nbColonne(colonne)
+Grille::Grille(int ligne, int colonne, ReglesClassiques regle) : IGrille(ligne, colonne, regle)
 {
     iniGrille();
 }
 
 Grille::~Grille()
 {
+
 }
 
 void Grille::iniGrille()  {
@@ -42,11 +41,11 @@ void Grille::affiche() {
     }
 }
 
-int Grille::getNbLigne() const {
+int Grille::getNbLigne() {
     return nbLigne;
 }
 
-int Grille::getNbColonne() const {
+int Grille::getNbColonne() {
     return nbColonne;
 }
 void Grille::SetNbColonne(int nbLigne) {
@@ -56,42 +55,35 @@ void Grille::SetNbLigne(int nbColonne) {
     this->nbColonne = nbColonne;
 }
 
-Cellule Grille::getCellule(int x,int y) const {
+Cellule Grille::getCellule(int x,int y) {
     return table[x][y];
 }
 
-int Grille :: adjacent(int i, int j, vector<vector<Cellule>>& vecteurs) {
-        int compt = 0;
-        for (int k = i - 1; k <= i + 1; k++) {
-            for (int q = j - 1; q <= j + 1; q++) {
-                if (k >= 0 && k < nbLigne && q >= 0 && q < nbColonne && !(k == i && q == j)) {
-                    if (vecteurs[k][q].estVivant()) {
-                        compt++;
-                    }
+int Grille :: adjacent(int i, int j) {
+    int compt = 0;
+    for (int k = i - 1; k <= i + 1; k++) {
+        for (int q = j - 1; q <= j + 1; q++) {
+            if (k >= 0 && k < nbLigne && q >= 0 && q < nbColonne && !(k == i && q == j)) {
+                if (table[k][q].estVivant()) {
+                    compt++;
                 }
             }
         }
-        return compt;
     }
-    
-    void Grille :: genarationSuiv(vector<vector<Cellule>>& vecteurs) {
-        vector<vector<Cellule>> temp(nbLigne, vector<Cellule>(nbColonne));
-        for (int i = 0; i < nbLigne; i++) {
-            for (int j = 0; j < nbColonne; j++) {
-                if (vecteurs[i][j].estVivant()) {
-                    if (adjacent(i, j, vecteurs) == 2 || adjacent(i, j, vecteurs) == 3) {
-                        temp[i][j].setEtat(true);
-                    } else {
-                        temp[i][j].setEtat(false);
-                    }
-                } else {
-                    if (adjacent(i, j, vecteurs) == 3) {
-                        temp[i][j].setEtat(true);
-                    } else {
-                        temp[i][j].setEtat(false);
-                    }
-                }
+    return compt;
+}
+
+void Grille :: genarationSuiv() {
+    vector<vector<Cellule>> temp(nbLigne, vector<Cellule>(nbColonne));
+    for (int i = 0; i < nbLigne; i++) {
+        for (int j = 0; j < nbColonne; j++) {
+            int nbAdjacent = adjacent(i, j);
+            if (table[i][j].estVivant()) {
+                temp[i][j].setEtat(regle.celluleSurvit(true, nbAdjacent));
+            } else {
+                temp[i][j].setEtat(regle.celluleNait(false, nbAdjacent));
             }
         }
-        vecteurs = temp;
     }
+    table = temp;
+}

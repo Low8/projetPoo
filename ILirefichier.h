@@ -1,11 +1,21 @@
+#pragma once;
+
 #include "Grille.h"
 
 class ILirefichier
 {
-private:
-    ifstream f_in;
-
+protected:
+    string path;
 public:
-    Virtual Grille lire(const string) = 0;
+    ILirefichier(string);
+    ~ILirefichier();
+    virtual Grille lire() = 0;
 };
 
+ILirefichier::ILirefichier(string path) : path(path)
+{
+};
+
+ILirefichier::~ILirefichier() {
+
+};

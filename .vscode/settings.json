@@ -1,7 +1,5 @@
 {
     "files.associations": {
-        "vector": "cpp",
         "iosfwd": "cpp"
-    },
-    "C_Cpp.errorSquiggles": "enabled"
+    }
 }

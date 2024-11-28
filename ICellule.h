@@ -1,10 +1,22 @@
+#pragma once;
+
 #include "Librairie.h"
-#include "Cellule.h"
 
 class ICellule{
+protected:
+    bool etat;
 public:
+    ICellule();
+    virtual ~ICellule();
     virtual bool estVivant() const = 0;
-    virtual void setEtat(bool etat) const = 0;
-
-    virtual ~ICellule() = default;
+    virtual void setEtat(bool etat) = 0;
 };
+
+ICellule::ICellule() : etat(false)
+{
+    
+}
+
+ICellule::~ICellule()
+{
+}
