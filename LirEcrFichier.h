@@ -5,13 +5,11 @@
 class LirEcrFichier 
 { 
 private: 
-    string message; 
     ifstream f_in; 
     ofstream f_out;
 public: 
     void ecrire(Grille, string); 
-    string lire(string);
-    vector<vector<Cellule>> convertion();
+    Grille lire(string);
     int retourneLigne();
     int retourneColonne();
 };
@@ -36,24 +34,35 @@ void LirEcrFichier::ecrire(Grille tabl, string path)
     f_out.close(); 
 }
 
-Grille LirEcrFichier::lire(string path) 
+Grille LirEcrFichier::lire(const std::string& path) 
 {
-    string line;
-    this->message.clear();
-  
-    f_in.open(path);
+    std::ifstream f_in(path);
     if (!f_in.is_open()) {
-        cerr << "Erreur : impossible d'ouvrir le fichier en lecture : " << path << endl;
-        return "";
-    }
-    while (getline(f_in, line)) { 
-        this->message.append(line);
+        cerr << "Erreur : impossible d'ouvrir le fichier en lecture : " << path << std::endl;
     }
 
+    int nbLigne = 0, nbColonne = 0;
+    f_in >> nbLigne >> nbColonne;
+
+    if (nbLigne <= 0 || nbColonne <= 0) {
+        cerr << "Erreur : dimensions invalides dans le fichier." << std::endl;
+    }
+
+    Grille grille(nbLigne, nbColonne);
+
+    for (int i = 0; i < nbLigne; ++i) {
+        for (int j = 0; j < nbColonne; ++j) {
+            int etat;
+            if (!(f_in >> etat) || (etat != 0 && etat != 1)) {
+                cerr << "Erreur : données manquantes ou invalides dans le fichier." << std::endl;
+            }
+            grille.getCellule(i, j).setEtat(etat);
+        }
+    }
 
     f_in.close();
- 
-    return 
+
+    return grille;
 }
 
 
@@ -77,5 +86,4 @@ int main(void)
  delete fichier; 
  
     return 0; 
-} 
- 
+}
