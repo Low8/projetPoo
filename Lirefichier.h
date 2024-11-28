@@ -32,8 +32,8 @@ Grille Lirefichier::lire() // Définition de la méthode
     if (nbLigne <= 0 || nbColonne <= 0) {
         cerr << "Erreur : dimensions invalides dans le fichier." << endl;
     }
-
-    Grille grille(nbLigne, nbColonne);
+    ReglesClassiques regle;
+    Grille grille(nbLigne, nbColonne, regle);
 
     for (int i = 0; i < nbLigne; ++i) {
         for (int j = 0; j < nbColonne; ++j) {
