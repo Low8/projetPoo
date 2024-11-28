@@ -5,13 +5,9 @@
 class LirEcrFichier 
 { 
 private: 
-    ifstream f_in; 
-    ofstream f_out;
 public: 
     void ecrire(Grille, string); 
     Grille lire(string);
-    int retourneLigne();
-    int retourneColonne();
 };
 
  
@@ -36,7 +32,7 @@ void LirEcrFichier::ecrire(Grille tabl, string path)
 
 Grille LirEcrFichier::lire(const std::string& path) 
 {
-    std::ifstream f_in(path);
+    ifstream f_in(path);
     if (!f_in.is_open()) {
         cerr << "Erreur : impossible d'ouvrir le fichier en lecture : " << path << std::endl;
     }
