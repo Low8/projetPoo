@@ -1,20 +1,4 @@
-#pragma once
-
-#include "Lirefichier.h"
-#include "Ecrirefichier.h"
-#include "GestionNomFichier.h"
-
-class Simulation
-{
-private:
-    Grille grille;
-    GestionNomFichier gestionFichier;
-    int nbGeneration;
-public:
-    Simulation(const ReglesClassiques, string, int);
-    ~Simulation();
-    void execute();
-};
+#include "Simulation.h"
 
 Simulation::Simulation(const ReglesClassiques regle, string pathBase, int nbGeneration) : grille(0, 0, regle), gestionFichier(pathBase), nbGeneration(nbGeneration)
 {
@@ -28,12 +12,12 @@ void Simulation::execute() {
     string fichierLecture = gestionFichier.genererNomFichier();
 
     for (int i = 0; i < nbGeneration; i++) {
-        Lirefichier lecture(fichierLecture);
+        LireFichier lecture(fichierLecture);
         grille = lecture.lire();
 
         string fichierEcriture = gestionFichier.genererNomFichier();
         
-        Ecrirefichier ecriture(fichierEcriture);
+        EcrireFichier ecriture(fichierEcriture);
         ecriture.ecrire(grille);
 
         fichierLecture = fichierEcriture;

@@ -1,17 +1,11 @@
-#pragma once;
+#pragma once
 
 #include "Cellule.h"
 #include "ReglesClassiques.h"
 
 
 class IGrille{
-protected:
-    vector<vector<Cellule>> table;
-    int nbLigne;
-    int nbColonne;
-    ReglesClassiques regle;
 public:
-    IGrille(int, int, ReglesClassiques);
     virtual ~IGrille();
     virtual void iniGrille() = 0;
     virtual void affiche() = 0;
@@ -23,13 +17,3 @@ public:
     virtual int adjacent(int, int) = 0;
     virtual void genarationSuiv() = 0;
 };
-
-IGrille::IGrille(int nbligne, int nbcolonne, ReglesClassiques regle) : nbLigne(nbligne), nbColonne(nbcolonne), regle(regle)
-{  
-
-}
-
-IGrille::~IGrille()
-{
-    
-}

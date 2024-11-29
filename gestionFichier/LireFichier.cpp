@@ -1,25 +1,14 @@
-#pragma once;
+#include "LireFichier.h"
 
-#include "ILirefichier.h"
-
-class Lirefichier : public ILirefichier
-{
-public:
-    Lirefichier(string);
-    ~Lirefichier();
-    Grille lire() override;
-};
-
-
-Lirefichier::Lirefichier(string path) : ILirefichier(path) 
+LireFichier::LireFichier(string path) : path(path) 
 {
 }
 
-Lirefichier::~Lirefichier()
+LireFichier::~LireFichier()
 {
 }
 
-Grille Lirefichier::lire() // Définition de la méthode
+Grille LireFichier::lire() // Définition de la méthode
 {
     ifstream f_in(path);
     if (!f_in.is_open()) {

@@ -1,26 +1,8 @@
-#pragma once;
+#include "Grille.h"
 
-#include "IGrille.h"
+Grille::Grille(int nbligne, int nbcolonne, ReglesClassiques regle) : nbLigne(nbligne), nbColonne(nbcolonne), regle(regle)
+{  
 
-class Grille : public IGrille
-{
-public:
-    Grille(int , int, ReglesClassiques);
-    ~Grille() override;
-    void iniGrille() override;
-    void affiche() override;
-    int getNbLigne() override;
-    int getNbColonne() override;
-    void SetNbColonne(int) override;
-    void SetNbLigne(int) override;
-    Cellule getCellule(int,int) override;
-    int adjacent(int, int) override;
-    void genarationSuiv() override;
-};
-
-Grille::Grille(int ligne, int colonne, ReglesClassiques regle) : IGrille(ligne, colonne, regle)
-{
-    iniGrille();
 }
 
 Grille::~Grille()

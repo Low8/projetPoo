@@ -1,24 +1,14 @@
-#pragma once;
+#include "EcrireFichier.h"
 
-#include "IEcrirefichier.h"
-
-class Ecrirefichier : public IEcrirefichier
-{
-public:
-    Ecrirefichier(string);
-    ~Ecrirefichier();
-    void ecrire(Grille) override;
-};
-
-Ecrirefichier::Ecrirefichier(string path) : IEcrirefichier(path)
+EcrireFichier::EcrireFichier(string path) : path(path)
 {
 }
 
-Ecrirefichier::~Ecrirefichier()
+EcrireFichier::~EcrireFichier()
 {
 }
 
-void Ecrirefichier::ecrire(Grille grille) {
+void EcrireFichier::ecrire(Grille grille) {
     ofstream f_out;
     f_out.open(path, ofstream::out);
     if (!f_out.is_open()) {
