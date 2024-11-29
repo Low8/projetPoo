@@ -2,20 +2,21 @@
 
 #include "Lirefichier.h"
 #include "Ecrirefichier.h"
+#include "GestionNomFichier.h"
 
 class Simulation
 {
 private:
     Grille grille;
-    Lirefichier lecture;
-    Ecrirefichier ecriture;
+    GestionNomFichier gestionFichier;
+    int nbGeneration;
 public:
-    Simulation(const ReglesClassiques, string, string);
+    Simulation(const ReglesClassiques, string, int);
     ~Simulation();
-    void execute(int);
+    void execute();
 };
 
-Simulation::Simulation(const ReglesClassiques regle, string pathL, string pathE) : grille(0, 0, regle), lecture(pathL), ecriture(pathE)
+Simulation::Simulation(const ReglesClassiques regle, string pathBase, int nbGeneration) : grille(0, 0, regle), gestionFichier(pathBase), nbGeneration(nbGeneration)
 {
 }
 
@@ -23,6 +24,20 @@ Simulation::~Simulation()
 {
 }
 
-void Simulation::execute(int nbTour) {
+void Simulation::execute() {
+    string fichierLecture = gestionFichier.genererNomFichier();
 
+    for (int i = 0; i < nbGeneration; i++) {
+        Lirefichier lecture(fichierLecture);
+        grille = lecture.lire();
+
+        string fichierEcriture = gestionFichier.genererNomFichier();
+        
+        Ecrirefichier ecriture(fichierEcriture);
+        ecriture.ecrire(grille);
+
+        fichierLecture = fichierEcriture;
+        grille.affiche();
+        cout << "====================================" << endl;
+    }
 }
