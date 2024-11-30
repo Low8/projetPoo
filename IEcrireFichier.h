@@ -6,5 +6,5 @@ class IEcrireFichier
 {
 public:
     virtual ~IEcrireFichier() {};
-    virtual void ecrire(Grille) = 0; 
+    virtual void ecrire(IGrille*) = 0; 
 };

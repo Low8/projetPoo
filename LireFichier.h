@@ -9,5 +9,5 @@ private:
 public:
     LireFichier(string);
     ~LireFichier();
-    Grille lire() override;
+    IGrille* lire() override;
 };

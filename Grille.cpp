@@ -1,23 +1,33 @@
 #include "Grille.h"
 
-Grille::Grille(int nbligne, int nbcolonne, ReglesClassiques regle) : nbLigne(nbligne), nbColonne(nbcolonne), regle(regle)
+Grille::Grille(int nbligne, int nbcolonne, Regles* regle) : nbLigne(nbligne), nbColonne(nbcolonne), regle(regle)
 {  
     iniGrille();
 }
 
-Grille::~Grille()
-{
 
+Grille::~Grille() {
+    for (int i = 0; i < nbLigne; ++i) {
+        for (int j = 0; j < nbColonne; ++j) {
+            delete table[i][j];
+        }
+    }
 }
 
-void Grille::iniGrille()  {
-    table = vector<vector<Cellule>>(nbLigne, vector<Cellule>(nbColonne));
+void Grille::iniGrille() {
+    table = vector<vector<ICellule*>>(nbLigne, vector<ICellule*>(nbColonne));
+    for (int i = 0; i < nbLigne; ++i) {
+        for (int j = 0; j < nbColonne; ++j) {
+            table[i][j] = new Cellule();
+        }
+    }
 }
+
 
 void Grille::affiche() {
-    for (int i = 0; i<nbColonne; i++){
-        for(int j = 0; j<nbLigne; j++){
-            cout << (table[i][j].estVivant() ? 'O' : '.') << ' ';
+    for (int i = 0; i<nbLigne; i++){
+        for(int j = 0; j<nbColonne; j++){
+            cout << (table[i][j]->estVivant() ? 'O' : '.') << ' ';
         }
         cout << endl;
     }
@@ -37,7 +47,7 @@ void Grille::SetNbLigne(int nbColonne) {
     this->nbColonne = nbColonne;
 }
 
-Cellule &Grille::getCellule(int x,int y) {
+ICellule* Grille::getCellule(int x,int y) {
     return table[x][y];
 }
 
@@ -46,7 +56,7 @@ int Grille :: adjacent(int i, int j) {
     for (int k = i - 1; k <= i + 1; k++) {
         for (int q = j - 1; q <= j + 1; q++) {
             if (k >= 0 && k < nbLigne && q >= 0 && q < nbColonne && !(k == i && q == j)) {
-                if (table[k][q].estVivant()) {
+                if (table[k][q]->estVivant()) {
                     compt++;
                 }
             }
@@ -56,18 +66,20 @@ int Grille :: adjacent(int i, int j) {
 }
 
 void Grille :: generationSuiv() {
-    vector<vector<Cellule>> temp(nbLigne, vector<Cellule>(nbColonne));
-    cout<<nbColonne<<nbLigne<<endl;
-    
-
+    vector<vector<ICellule*>> temp(nbLigne, vector<ICellule*>(nbColonne));
+    for (int i = 0; i < nbLigne; i++) {
+        for (int j = 0; j < nbColonne; j++) {
+            temp[i][j] = new Cellule();
+        }
+    }
     for (int i = 0; i < nbLigne; i++) {
         for (int j = 0; j < nbColonne; j++) {
             int nbAdjacent = adjacent(i, j);
             
-            if (table[i][j].estVivant()) {
-                temp[i][j].setEtat(regle.celluleSurvit(true, nbAdjacent));
+            if (table[i][j]->estVivant()) {
+                temp[i][j]->setEtat(regle->celluleSurvit(true, nbAdjacent));
             } else {
-                temp[i][j].setEtat(regle.celluleNait(false, nbAdjacent));
+                temp[i][j]->setEtat(regle->celluleNait(false, nbAdjacent));
             }
         }
     }

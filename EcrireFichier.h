@@ -9,5 +9,5 @@ private:
 public:
     EcrireFichier(string);
     ~EcrireFichier();
-    void ecrire(Grille) override;
+    void ecrire(IGrille*) override;
 };

@@ -13,7 +13,7 @@ public:
     virtual int getNbColonne() = 0;
     virtual void SetNbColonne(int) = 0;
     virtual void SetNbLigne(int) = 0;
-    virtual Cellule &getCellule(int,int) = 0;
+    virtual ICellule* getCellule(int,int) = 0;
     virtual int adjacent(int, int) = 0;
     virtual void generationSuiv() = 0;
 };

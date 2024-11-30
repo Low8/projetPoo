@@ -8,11 +8,11 @@
 class Simulation : public ISimulation
 {
 private:
-    Grille grille;
+    IGrille* grille;
     GestionNomFichier gestionFichier;
     int nbGeneration;
 public:
-    Simulation(const ReglesClassiques, string, int);
+    Simulation(Regles*, string, int);
     ~Simulation();
     void execute();
 };

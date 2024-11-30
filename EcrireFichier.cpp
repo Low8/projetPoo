@@ -8,17 +8,17 @@ EcrireFichier::~EcrireFichier()
 {
 }
 
-void EcrireFichier::ecrire(Grille grille) {
+void EcrireFichier::ecrire(IGrille* grille) {
     ofstream f_out;
     f_out.open(path, ofstream::out);
     if (!f_out.is_open()) {
         cerr << "Erreur : impossible d'ouvrir le fichier en écriture : " << path << endl;
-        return;
+        exit(EXIT_FAILURE);
     }
-    f_out << grille.getNbLigne() << " " << grille.getNbColonne() << endl;
-    for (int y = 0; y < grille.getNbLigne(); y++) {
-        for (int x = 0; x < grille.getNbColonne(); x++) {
-            f_out << (grille.getCellule(x, y).estVivant() ? 1 : 0) << ' ';
+    f_out << grille->getNbLigne() << " " << grille->getNbColonne() << endl;
+    for (int i = 0; i < grille->getNbLigne(); i++) {
+        for (int j = 0; j < grille->getNbColonne(); j++) {
+            f_out << (grille->getCellule(i, j)->estVivant() ? 1 : 0) << ' ';
         }
         f_out << endl;
     }

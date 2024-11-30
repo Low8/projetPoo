@@ -7,10 +7,10 @@ class Grille : public IGrille
 private:
     int nbLigne;
     int nbColonne;
-    ReglesClassiques regle;
+    Regles* regle;
+    vector<vector<ICellule*>> table;
 public:
-    vector<vector<Cellule>> table;
-    Grille(int , int, ReglesClassiques);
+    Grille(int , int, Regles*);
     ~Grille();
     void iniGrille() override;
     void affiche() override;
@@ -18,7 +18,7 @@ public:
     int getNbColonne() override;
     void SetNbColonne(int) override;
     void SetNbLigne(int) override;
-    Cellule &getCellule(int,int) override;
+    ICellule* getCellule(int,int) override;
     int adjacent(int, int) override;
     void generationSuiv() override;
 };
