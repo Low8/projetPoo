@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Librairie.h>
+#include "Librairie.h"
 
 class GestionNomFichier
 {
@@ -9,6 +9,6 @@ private:
     std::string pathBase;
     bool premiereGeneration;
 public:
-    GestionNomFichier(const string& path);
+    GestionNomFichier(const string&);
     string genererNomFichier();
 };

@@ -5,5 +5,5 @@ bool ReglesClassiques::celluleSurvit(bool celluleActuelle, int nbAdjacent) const
 }
 
 bool ReglesClassiques::celluleNait(bool celluleActuelle, int nbAdjacent) const {
-    return !nbAdjacent && nbAdjacent == 3;
+    return !celluleActuelle && nbAdjacent == 3;
 }

@@ -5,6 +5,6 @@
 class ILireFichier
 {
 public:
-    virtual ~ILireFichier();
+    virtual ~ILireFichier() {};
     virtual Grille lire() = 0;
 };

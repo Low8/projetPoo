@@ -8,10 +8,10 @@ string GestionNomFichier:: genererNomFichier() {
     stringstream nomFichier;
     
     if (premiereGeneration) {
-        nomFichier << pathBase << "_out.txt";
+        nomFichier << "generation/" << pathBase << "_out.txt";
         premiereGeneration = false; 
     } else {
-        nomFichier << pathBase << "_out_" << compteur << ".txt";
+        nomFichier << "generation/" << pathBase << "_out_" << compteur << ".txt";
         compteur++;
     }
     return nomFichier.str();

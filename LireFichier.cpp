@@ -10,7 +10,8 @@ LireFichier::~LireFichier()
 
 Grille LireFichier::lire() // Définition de la méthode
 {
-    ifstream f_in(path);
+    ifstream f_in;
+    f_in.open(path);
     if (!f_in.is_open()) {
         cerr << "Erreur : impossible d'ouvrir le fichier en lecture : " << path << endl;
     }
@@ -33,8 +34,6 @@ Grille LireFichier::lire() // Définition de la méthode
             grille.getCellule(i, j).setEtat(etat);
         }
     }
-
     f_in.close();
-
     return grille;
 }

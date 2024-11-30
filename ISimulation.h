@@ -6,6 +6,6 @@ class IGrille;
 
 class ISimulation {
 public:
-    virtual ~ISimulation() = default;
+    virtual ~ISimulation() {};
     virtual void execute() = 0;
 };

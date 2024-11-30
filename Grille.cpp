@@ -2,7 +2,7 @@
 
 Grille::Grille(int nbligne, int nbcolonne, ReglesClassiques regle) : nbLigne(nbligne), nbColonne(nbcolonne), regle(regle)
 {  
-
+    iniGrille();
 }
 
 Grille::~Grille()
@@ -37,7 +37,7 @@ void Grille::SetNbLigne(int nbColonne) {
     this->nbColonne = nbColonne;
 }
 
-Cellule Grille::getCellule(int x,int y) {
+Cellule &Grille::getCellule(int x,int y) {
     return table[x][y];
 }
 
@@ -55,11 +55,15 @@ int Grille :: adjacent(int i, int j) {
     return compt;
 }
 
-void Grille :: genarationSuiv() {
+void Grille :: generationSuiv() {
     vector<vector<Cellule>> temp(nbLigne, vector<Cellule>(nbColonne));
+    cout<<nbColonne<<nbLigne<<endl;
+    
+
     for (int i = 0; i < nbLigne; i++) {
         for (int j = 0; j < nbColonne; j++) {
             int nbAdjacent = adjacent(i, j);
+            
             if (table[i][j].estVivant()) {
                 temp[i][j].setEtat(regle.celluleSurvit(true, nbAdjacent));
             } else {

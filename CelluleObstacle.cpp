@@ -5,6 +5,11 @@ CelluleObstacle::CelluleObstacle() : etat(false)
     
 }
 
+CelluleObstacle::~CelluleObstacle()
+{
+    
+}
+
 bool CelluleObstacle::estVivant()const{
     return false;
 }
