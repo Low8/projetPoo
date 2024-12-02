@@ -24,9 +24,11 @@ void Simulation::execute() {
         
         ecriture.ecrire(grille);
 
+        
+
         fichierLecture = fichierEcriture;
         grille->affiche();
 
-        cout << "====================================" << endl;
+        cout << "=======================================" << endl;
     }
 }

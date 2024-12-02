@@ -1,8 +1,7 @@
-#include "Simulation.h"
+#include "Client.h"
 
 int main() {
-    string fichierIni = "generation";
-    Regles* regle = new ReglesClassiques;
-    Simulation jeu(regle, fichierIni, 10);
-    jeu.execute();
+    Client client;
+    client.lancerSimulation();
+    return 0;
 }
