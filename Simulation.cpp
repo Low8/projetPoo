@@ -13,16 +13,16 @@ void Simulation::execute() {
     string nomFichier = gestionFichier.genererNomFichier();
 
     for (int i = 0; i < nbGeneration; i++) {
-        GestionFichier fichier(nomFichier);
+        IGestionFichier* fichier = new GestionFichier(nomFichier);
 
-        grille = fichier.lire();
+        grille = fichier->lire();
         grille->generationSuiv();
         nomFichier = gestionFichier.genererNomFichier();
         
-        fichier.setPath(nomFichier);
+        fichier->setPath(nomFichier);
 
         
-        fichier.ecrire(grille);
+        fichier->ecrire(grille);
 
         grille->affiche();
 

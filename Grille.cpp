@@ -3,6 +3,7 @@
 Grille::Grille(int nbligne, int nbcolonne, Regles* regle) : nbLigne(nbligne), nbColonne(nbcolonne), regle(regle)
 {  
     iniGrille();
+    //table[5][5]->setEtat(true);
 }
 
 

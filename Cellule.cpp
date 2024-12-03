@@ -1,6 +1,6 @@
 #include "Cellule.h"
 
-Cellule::Cellule() : etat(false)
+Cellule::Cellule() : etat(true)
 {
 
 }
