@@ -10,23 +10,20 @@ Simulation::~Simulation()
 }
 
 void Simulation::execute() {
-    string fichierLecture = gestionFichier.genererNomFichier();
+    string nomFichier = gestionFichier.genererNomFichier();
 
     for (int i = 0; i < nbGeneration; i++) {
-        LireFichier lecture(fichierLecture);
+        GestionFichier fichier(nomFichier);
 
-        grille = lecture.lire();
+        grille = fichier.lire();
         grille->generationSuiv();
-        string fichierEcriture = gestionFichier.genererNomFichier();
+        nomFichier = gestionFichier.genererNomFichier();
         
-        EcrireFichier ecriture(fichierEcriture);
+        fichier.setPath(nomFichier);
 
         
-        ecriture.ecrire(grille);
+        fichier.ecrire(grille);
 
-        
-
-        fichierLecture = fichierEcriture;
         grille->affiche();
 
         cout << "=======================================" << endl;

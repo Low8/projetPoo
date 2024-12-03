@@ -1,8 +1,7 @@
 #pragma once
 
 #include "ISimulation.h"
-#include "LireFichier.h"
-#include "EcrireFichier.h"
+#include "GestionFichier.h"
 #include "GestionNomFichier.h"
 
 class Simulation : public ISimulation

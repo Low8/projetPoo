@@ -52,9 +52,10 @@ ICellule* Grille::getCellule(int x,int y) {
 }
 
 int Grille :: adjacent(int i, int j) {
+    int n = regle->getNbAdjacent();
     int compt = 0;
-    for (int k = i - 1; k <= i + 1; k++) {
-        for (int q = j - 1; q <= j + 1; q++) {
+    for (int k = i - n; k <= i + n; k++) {
+        for (int q = j - n; q <= j + n; q++) {
             if (k >= 0 && k < nbLigne && q >= 0 && q < nbColonne && !(k == i && q == j)) {
                 if (table[k][q]->estVivant()) {
                     compt++;

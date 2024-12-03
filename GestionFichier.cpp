@@ -1,15 +1,15 @@
-#include "LireFichier.h"
+#include "GestionFichier.h"
 
-LireFichier::LireFichier(string path) : path(path) 
-{
+GestionFichier::GestionFichier(string path) : path(path) {
+
 }
 
-LireFichier::~LireFichier()
-{
+GestionFichier::~GestionFichier() {
+
 }
 
-IGrille* LireFichier::lire() // Définition de la méthode
-{
+
+IGrille* GestionFichier::lire() {
     ifstream f_in;
     f_in.open(path);
     if (!f_in.is_open()) {
@@ -43,4 +43,30 @@ IGrille* LireFichier::lire() // Définition de la méthode
     
     f_in.close();
     return grille;
+}
+
+void GestionFichier::ecrire(IGrille* grille) {
+    ofstream f_out;
+    f_out.open(path, ofstream::out);
+    if (!f_out.is_open()) {
+        cerr << "Erreur : impossible d'ouvrir le fichier en écriture : " << path << endl;
+        exit(EXIT_FAILURE);
+    }
+    f_out << grille->getNbLigne() << " " << grille->getNbColonne() << endl;
+    for (int i = 0; i < grille->getNbLigne(); i++) {
+        for (int j = 0; j < grille->getNbColonne(); j++) {
+            f_out << (grille->getCellule(i, j)->estVivant() ? 1 : 0) << ' ';
+        }
+        f_out << endl;
+    }
+    f_out.close(); 
+}
+
+string GestionFichier::getPath() {
+    return path;
+}
+
+
+void GestionFichier::setPath(string path) {
+    this->path = path;
 }

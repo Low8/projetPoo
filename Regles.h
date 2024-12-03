@@ -8,4 +8,5 @@ public:
     virtual ~Regles() {};
     virtual bool celluleSurvit(bool, int) const = 0;
     virtual bool celluleNait(bool, int) const = 0;
+    virtual int getNbAdjacent() = 0;
 };

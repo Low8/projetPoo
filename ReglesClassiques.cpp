@@ -1,7 +1,11 @@
 #include "ReglesClassiques.h"
 
+ReglesClassiques::ReglesClassiques() : nbAdjacent(1) {
+
+}
+
 ReglesClassiques::~ReglesClassiques() {
-    
+
 }
 
 bool ReglesClassiques::celluleSurvit(bool celluleActuelle, int nbAdjacent) const {
@@ -10,4 +14,8 @@ bool ReglesClassiques::celluleSurvit(bool celluleActuelle, int nbAdjacent) const
 
 bool ReglesClassiques::celluleNait(bool celluleActuelle, int nbAdjacent) const {
     return !celluleActuelle && nbAdjacent == 3;
+}
+
+int ReglesClassiques::getNbAdjacent() {
+    return nbAdjacent;
 }

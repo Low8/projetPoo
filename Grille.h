@@ -9,16 +9,16 @@ private:
     int nbColonne;
     Regles* regle;
     vector<vector<ICellule*>> table;
+    void iniGrille() override;
+    int adjacent(int, int) override;
 public:
     Grille(int , int, Regles*);
     ~Grille();
-    void iniGrille() override;
     void affiche() override;
     int getNbLigne() override;
     int getNbColonne() override;
     void SetNbColonne(int) override;
     void SetNbLigne(int) override;
     ICellule* getCellule(int,int) override;
-    int adjacent(int, int) override;
     void generationSuiv() override;
 };
