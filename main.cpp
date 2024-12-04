@@ -13,6 +13,9 @@ const int Taille_cellule = 10;
 
 
 void afficherGraphique(IGrille* grille, const string path) {
+    vector<int> timeIntervals = {125, 250, 500, 1000, 2000, 4000};
+    int currentIndex = 3;
+    bool inPause = false;
     IGestionFichier* fichier = new GestionFichier(path);
     grille = fichier->lire();
 
@@ -22,12 +25,71 @@ void afficherGraphique(IGrille* grille, const string path) {
     while (window.isOpen()) { //boucle prinn fenetre
         sf::Event event;
         while (window.pollEvent(event)) { // geère ouverture ou fermeture
-            std::this_thread::sleep_for(std::chrono::seconds(1));
-            if (event.type == sf::Event::Closed)
+            if (event.type == sf::Event::Closed) {
                 window.close(); //ferme fenetre su on appuie sur ferme fenetre
-        }
+            }
+            if (event.type == sf::Event::KeyPressed)
+            {
+                if (event.key.code == sf::Keyboard::Left) {
+                    if (currentIndex < timeIntervals.size() - 1) {
+                        currentIndex++;
+                        cout << currentIndex << endl;
+                    }
+                }
+                if (event.key.code == sf::Keyboard::Right)
+                {
+                    if (currentIndex > 0) {
+                        currentIndex--;
+                        cout << currentIndex << endl;
+                    }
+                }
+                if (event.key.code == sf::Keyboard::Space)
+                {
+                    inPause = !inPause;
+                }
+                while (inPause)
+                {
+                    while (window.pollEvent(event))
+                    {
+                        if (event.type == sf::Event::Closed) {
+                            window.close();
+                        }
+                        if (event.type == sf::Event::KeyPressed)
+                        {
+                            if (event.key.code == sf::Keyboard::Space)
+                            {
+                                inPause = false;
+                            }
+                            if (event.key.code == sf::Keyboard::Delete) {
+                                window.clear();
+                                window.display();
+                            }
+                        }
+                        if (event.type == sf::Event::MouseButtonPressed) {
+                            int x = event.mouseButton.x / Taille_cellule;
+                            int y = event.mouseButton.y / Taille_cellule;
 
-        grille->generationSuiv(); //maj grille
+                            if (event.mouseButton.button == sf::Mouse::Left) {
+                                grille->getCellule(y, x)->setEtat(true);
+                                cell.setPosition(x * Taille_cellule, y * Taille_cellule);
+                                cell.setFillColor(sf::Color::White);
+                                window.draw(cell);
+                                window.display();
+                            }
+                            if (event.mouseButton.button == sf::Mouse::Right) {
+                                grille->getCellule(y, x)->setEtat(false);
+                                cell.setPosition(x * Taille_cellule, y * Taille_cellule);
+                                cell.setFillColor(sf::Color::Black);
+                                window.draw(cell);
+                                window.display();
+                            }
+                        }
+                    }   
+                }
+            }
+        }
+            
+
 
 
         window.clear(); //efface fenetre pour afficher la prochaine gen
@@ -39,6 +101,8 @@ void afficherGraphique(IGrille* grille, const string path) {
             }
         }
         window.display();
+        grille->generationSuiv(); //maj grille
+        sf::sleep(sf::milliseconds(timeIntervals[currentIndex]));
 
     }
     delete fichier;
