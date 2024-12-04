@@ -86,9 +86,10 @@ void SimulationGraphique::gererEvenements() {
                         int y = event.mouseButton.y / Taille_cellule;
                         if (event.mouseButton.button == sf::Mouse::Left) {
                             if (oPress) {
-                                grille->setCelluleO(y, x);
+                                grille->setCelluleO(x, y);
                                 cell.setPosition(x * Taille_cellule, y * Taille_cellule);
-                                cell.setFillColor(sf::Color::Red);
+                                grille->getCellule(x, y)->estObstacle() ?
+                                cell.setFillColor(sf::Color::Red) : cell.setFillColor(sf::Color::White);
                                 window.draw(cell);
                                 window.display();
                             } else {
@@ -100,19 +101,12 @@ void SimulationGraphique::gererEvenements() {
                             }
                         }
                         if (event.mouseButton.button == sf::Mouse::Right) {
-                            if (oPress) {
-                                grille->setCelluleO(y, x);
-                                cell.setPosition(x * Taille_cellule, y * Taille_cellule);
-                                cell.setFillColor(sf::Color::Red);
-                                window.draw(cell);
-                                window.display();
-                            } else {
-                                grille->getCellule(y, x)->setEtat(false);
-                                cell.setPosition(x * Taille_cellule, y * Taille_cellule);
-                                cell.setFillColor(sf::Color::Black);
-                                window.draw(cell);
-                                window.display();
-                            }
+                            grille->setCelluleO(x, y);
+                            grille->getCellule(y, x)->setEtat(false);
+                            cell.setPosition(x * Taille_cellule, y * Taille_cellule);
+                            cell.setFillColor(sf::Color::Black);
+                            window.draw(cell);
+                            window.display();
                         }
                     }
                 }   

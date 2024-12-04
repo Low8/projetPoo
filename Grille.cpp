@@ -84,25 +84,24 @@ void Grille :: generationSuiv() {
     vector<vector<ICellule*>> temp(nbLigne, vector<ICellule*>(nbColonne));
     for (int i = 0; i < nbLigne; i++) {
         for (int j = 0; j < nbColonne; j++) {
-            temp[i][j] = new Cellule();
+            if (!table[i][j]->estObstacle()){
+                temp[i][j] = new Cellule();
+            }
+            else
+            {
+                temp[i][j] = new CelluleObstacle();
+            }
+            
         }
     }
     for (int i = 0; i < nbLigne; i++) {
         for (int j = 0; j < nbColonne; j++) {
             int nbAdjacent = adjacent(i, j);
-            if (!table[i][j]->estObstacle())
-            {
-                if (table[i][j]->estVivant()) {
-                    temp[i][j]->setEtat(regle->celluleSurvit(true, nbAdjacent));
-                } else {
-                    temp[i][j]->setEtat(regle->celluleNait(false, nbAdjacent));
-                }
-            } else
-            {
-                delete table[i][j];
-                table[i][j] = new CelluleObstacle;
-            }
-            
+            if (table[i][j]->estVivant()) {
+                temp[i][j]->setEtat(regle->celluleSurvit(true, nbAdjacent));
+            } else {
+                temp[i][j]->setEtat(regle->celluleNait(false, nbAdjacent));
+            }           
         }
     }
 
