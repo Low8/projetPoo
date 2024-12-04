@@ -7,4 +7,5 @@ public:
     virtual ~ICellule() {};
     virtual bool estVivant() const = 0;
     virtual void setEtat(bool) = 0;
+    virtual bool estObstacle() const = 0;
 };

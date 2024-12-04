@@ -1,41 +1,133 @@
-// #include <SFML/Graphics.hpp> 
-// #include "Grille.h" 
+#include "SimulationGraphique.h"
 
-// const int Largeur = 800;
-// const int Hauteur = 600;
-// const int Taille_cellule = 10;
+SimulationGraphique::SimulationGraphique(const string& path) : grille(grille), inPause(false), currentIndex(3), oPress(false) {
+    GestionNomFichier gestionNomFichier(path);
+    string nomFichier = gestionNomFichier.genererNomFichier();
 
-// int SFML(){
-//     // Crée fenetre avec dimensuos
-//     sf::RenderWindow window(sf::VideoMode(Largeur, Hauteur), "Jeu de la Vida loca");
-
-//     Grille grille(Hauteur/Taille_cellule, Largeur) / Taille_cellule, new Regles());
-
+    timeIntervals = {125, 250, 500, 1000, 2000, 4000};
     
-//     while (window.isOpen()) {
-//         sf::Event event;
-//         while (window.pollEvent(event)) {
-//             if (event.type == sf::Event::Closed)
-//                 window.close(); // Ferme la fenêtre si l'événement de fermeture est détecté
-//         }
+    // Charger la grille depuis le fichier
+    fichier = new GestionFichier(nomFichier);
+    this->grille = fichier->lire();  // Assurez-vous que la grille est correctement chargée.
+    // Initialisation de la fenêtre
+    window.create(sf::VideoMode(grille->getNbLigne() * Taille_cellule, grille->getNbColonne() * Taille_cellule), "Jeu de la Vida loca");
+    cell.setSize(sf::Vector2f(Taille_cellule - 1.0f, Taille_cellule - 1.0f));
+}
 
-//        grille.generationSuiv();
-        
-        
-//         window.clear(); 
-//         for (int i = 0; i < Hauteur / Taille_cellule; ++i) {
-//             for (int j = 0; j < Largeur / Taille_cellule; ++j) {
-//                 // Crée un rectangle représentant une cellule
-//                 sf::RectangleShape cell(sf::Vector2f(Taille_cellule - 1, Taille_cellule - 1));
-//                 // Positionne la cellule dans la fenêtre
-//                 cell.setPosition(j * Taille_cellule, i * Taille_cellule);
-//                 // Définit la couleur de la cellule (blanche si vivante, noire sinon)
-//                 cell.setFillColor(grid[i][j] ? sf::Color::White : sf::Color::Black);
-//                 window.draw(cell); // Dessine la cellule dans la fenêtre
-//             }
-//         }
-//         window.display(); // Affiche le contenu de la fenêtre
-//     }
+SimulationGraphique::~SimulationGraphique() {
 
-//     return 0; // Termine le programme
-// }
+}
+
+void SimulationGraphique::actualiserGrille() {
+    window.clear();
+    for (int i = 0; i < grille->getNbLigne(); ++i) {
+        for (int j = 0; j < grille->getNbColonne(); ++j) {
+            cell.setPosition(j * Taille_cellule, i * Taille_cellule);
+            if (!grille->getCellule(j, i)->estObstacle())
+            {
+                cell.setFillColor(grille->getCellule(i, j)->estVivant() ? sf::Color::White : sf::Color::Black);
+                window.draw(cell);
+            } else
+            {
+                cell.setFillColor(sf::Color::Red);
+                window.draw(cell);
+            } 
+        }
+    }
+    window.display();
+}
+
+void SimulationGraphique::gererEvenements() {
+    sf::Event event;
+    while (window.pollEvent(event)) { // geère ouverture ou fermeture
+        if (event.type == sf::Event::Closed) {
+            window.close(); //ferme fenetre su on appuie sur ferme fenetre
+        }
+        if (event.type == sf::Event::KeyPressed)
+        {
+            if (event.key.code == sf::Keyboard::Left) {
+                if (currentIndex < timeIntervals.size() - 1) {
+                    currentIndex++;
+                    cout << currentIndex << endl;
+                }
+            }
+            if (event.key.code == sf::Keyboard::Right)
+            {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    cout << currentIndex << endl;
+                }
+            }
+            if (event.key.code == sf::Keyboard::Space)
+            {
+                inPause = !inPause;
+            }
+            while (inPause)
+            {
+                while (window.pollEvent(event)) {
+                    if (event.type == sf::Event::Closed) {
+                        window.close();
+                    }
+                    if (event.type == sf::Event::KeyPressed) {
+                        if (event.key.code == sf::Keyboard::Space) {
+                            inPause = false;
+                        }
+                        if (event.key.code == sf::Keyboard::Delete) {
+                            window.clear();
+                            window.display();
+                        }
+                        if (event.key.code == sf::Keyboard::O) {
+                             std::cout << "O appuyé" << std::endl;
+                            oPress = !oPress; // Inverser état Opress
+                        }
+                    }
+                    if (event.type == sf::Event::MouseButtonPressed) {
+                        int x = event.mouseButton.x / Taille_cellule;
+                        int y = event.mouseButton.y / Taille_cellule;
+                        if (event.mouseButton.button == sf::Mouse::Left) {
+                            if (oPress) {
+                                grille->setCelluleO(y, x);
+                                cell.setPosition(x * Taille_cellule, y * Taille_cellule);
+                                cell.setFillColor(sf::Color::Red);
+                                window.draw(cell);
+                                window.display();
+                            } else {
+                                grille->getCellule(y, x)->setEtat(true);
+                                cell.setPosition(x * Taille_cellule, y * Taille_cellule);
+                                cell.setFillColor(sf::Color::White);
+                                window.draw(cell);
+                                window.display();
+                            }
+                        }
+                        if (event.mouseButton.button == sf::Mouse::Right) {
+                            if (oPress) {
+                                grille->setCelluleO(y, x);
+                                cell.setPosition(x * Taille_cellule, y * Taille_cellule);
+                                cell.setFillColor(sf::Color::Red);
+                                window.draw(cell);
+                                window.display();
+                            } else {
+                                grille->getCellule(y, x)->setEtat(false);
+                                cell.setPosition(x * Taille_cellule, y * Taille_cellule);
+                                cell.setFillColor(sf::Color::Black);
+                                window.draw(cell);
+                                window.display();
+                            }
+                        }
+                    }
+                }   
+            }
+        }
+    }
+}
+
+void SimulationGraphique::execute() {
+    while (window.isOpen()) {
+        gererEvenements();  // Gérer les événements
+        if (!inPause) {
+            grille->generationSuiv();  // Avancer à la génération suivante
+        }
+        actualiserGrille();  // Afficher la grille après chaque génération
+        sf::sleep(sf::milliseconds(timeIntervals[currentIndex]));  // Attendre avant la prochaine génération
+    }
+}

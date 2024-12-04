@@ -7,5 +7,6 @@ public:
     CelluleObstacle();
     ~CelluleObstacle();
     bool estVivant() const override;
-    void setEtat(bool) override ;
+    void setEtat(bool) override;
+    bool estObstacle() const override {return true;}
 };

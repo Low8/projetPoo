@@ -52,6 +52,19 @@ ICellule* Grille::getCellule(int x,int y) {
     return table[x][y];
 }
 
+void Grille::setCelluleO(int x, int y) {
+    
+    if (table[x][y]->estObstacle())
+    {
+        delete table[x][y];
+        table[x][y] = new Cellule;
+    } else
+    {
+        delete table[x][y];
+        table[x][y] = new CelluleObstacle;
+    }
+}
+
 int Grille :: adjacent(int i, int j) {
     int n = regle->getNbAdjacent();
     int compt = 0;
@@ -77,13 +90,21 @@ void Grille :: generationSuiv() {
     for (int i = 0; i < nbLigne; i++) {
         for (int j = 0; j < nbColonne; j++) {
             int nbAdjacent = adjacent(i, j);
-            
-            if (table[i][j]->estVivant()) {
-                temp[i][j]->setEtat(regle->celluleSurvit(true, nbAdjacent));
-            } else {
-                temp[i][j]->setEtat(regle->celluleNait(false, nbAdjacent));
+            if (!table[i][j]->estObstacle())
+            {
+                if (table[i][j]->estVivant()) {
+                    temp[i][j]->setEtat(regle->celluleSurvit(true, nbAdjacent));
+                } else {
+                    temp[i][j]->setEtat(regle->celluleNait(false, nbAdjacent));
+                }
+            } else
+            {
+                delete table[i][j];
+                table[i][j] = new CelluleObstacle;
             }
+            
         }
     }
+
     table = temp;
 }

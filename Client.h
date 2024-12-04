@@ -1,10 +1,11 @@
 #pragma once
 
 #include "Simulation.h"
+#include "SimulationGraphique.h"
 
 class Client {
 private:
-    Simulation* simulation;
+    ISimulation* simulation;
     Regles* regle;
     string cheminDossier;
     int nombreGenerations;

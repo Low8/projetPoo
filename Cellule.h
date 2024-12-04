@@ -11,4 +11,5 @@ public:
     ~Cellule() override;
     bool estVivant() const override;
     void setEtat(bool etat) override;
+    bool estObstacle() const override {return false;}
 };

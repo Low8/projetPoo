@@ -17,4 +17,5 @@ public:
     virtual void SetNbLigne(int) = 0;
     virtual ICellule* getCellule(int,int) = 0;
     virtual void generationSuiv() = 0;
+    virtual void setCelluleO(int, int) = 0;
 };

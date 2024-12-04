@@ -13,5 +13,5 @@ private:
 public:
     Simulation(Regles*, string, int);
     ~Simulation();
-    void execute();
+    void execute() override;
 };

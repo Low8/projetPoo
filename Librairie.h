@@ -6,5 +6,5 @@
 #include <fstream>
 #include <sstream>
 #include <chrono>
-#include <thread>
+#include <SFML/Graphics.hpp>
 using namespace std;

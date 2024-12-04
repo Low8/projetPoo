@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IGrille.h"
+#include "CelluleObstacle.h"
 
 class Grille : public IGrille
 {
@@ -21,4 +22,5 @@ public:
     void SetNbLigne(int) override;
     ICellule* getCellule(int,int) override;
     void generationSuiv() override;
+    void setCelluleO(int, int) override;
 };

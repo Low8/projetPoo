@@ -15,5 +15,5 @@ bool CelluleObstacle::estVivant()const{
 }
 
 void CelluleObstacle::setEtat(bool etat) { 
-    this->etat=etat;
+    this->etat=false;
 }
