@@ -6,15 +6,13 @@
 #include "ReglesClassiques.h"
 
 
-//def dilension de fenêtre + taille cellule (par def)
-//const int Largeur = 800;
-//const int Hauteur = 600;
+
 const int Taille_cellule = 10;
 
 //je fais une fonction afficher console ?? 
 
 
-void afficherGraphique(IGrille* grille, string path) {
+void afficherGraphique(IGrille* grille, const string path) {
     IGestionFichier* fichier = new GestionFichier(path);
     grille = fichier->lire();
 
@@ -24,11 +22,12 @@ void afficherGraphique(IGrille* grille, string path) {
     while (window.isOpen()) { //boucle prinn fenetre
         sf::Event event;
         while (window.pollEvent(event)) { // geère ouverture ou fermeture
+            std::this_thread::sleep_for(std::chrono::seconds(1));
             if (event.type == sf::Event::Closed)
                 window.close(); //ferme fenetre su on appuie sur ferme fenetre
         }
 
-        //grille.generationSuiv(); //maj grille
+        grille->generationSuiv(); //maj grille
 
 
         window.clear(); //efface fenetre pour afficher la prochaine gen
@@ -42,6 +41,7 @@ void afficherGraphique(IGrille* grille, string path) {
         window.display();
 
     }
+    delete fichier;
 }
 
 int main() {
@@ -59,11 +59,13 @@ int main() {
             
             Client client;
             client.lancerSimulation();
+            break;
         }
 
         case 2:
         {
             afficherGraphique(grille, "generation/generation_out.txt");  
+            break;
         }
 
         case 3:
@@ -71,11 +73,13 @@ int main() {
             Client client;
             client.lancerSimulation();
             afficherGraphique(grille, "generation/generation_out.txt");
+            break;
         }
 
         default:
         {
             cout<<"Choix Invalide"<<endl;
+            break;
         }
 
     }
