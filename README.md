@@ -1,6 +1,172 @@
 # projet Poo
 
+## Diagramme classe
 
+```mermaid
+classDiagram
+    ICellule <|-- Cellule
+    ICellule <|-- CelluleObstacle
+    ISimulation <|-- SimulationTerminale
+    ISimulation <|-- SimulationGraphique
+    IGestionFichier <|-- GestionFichier
+    Regles <|-- ReglesClassiques   
+    IGrille *-- Regles : contains
+    ISimulation *-- IGrille : contains
+    ISimulation *-- GestionNomFichier : contains
+    Client ..> ISimulation : uses
+    IGestionFichier ..> IGrille : uses
+    ICellule ..> IGrille
+    IGrille <|-- Grille
+    IGestionFichier ..> ISimulation : uses
+    
+    class ICellule {
+    + estVivant() bool
+    + setEtat(bool etat) void
+    + estObstacle() bool
+}
+
+class Cellule {
+    + Cellule()
+    + ~Cellule()
+    + estVivant() bool
+    + setEtat(bool etat) void
+    + estObstacle() bool
+}
+
+class CelluleObstacle {
+    + CelluleObstacle()
+    + ~CelluleObstacle()
+    + estVivant() bool
+    + setEtat(bool etat) void
+    + estObstacle() bool
+}
+
+class IGrille {
+    + ~IGrille()
+    + iniGrille() void
+    + affiche() void
+    + getNbLigne() int
+    + getNbColonne() int
+    + SetNbColonne(int colonne) void
+    + SetNbLigne(int ligne) void
+    + getCellule(int ligne, int colonne) ICellule*
+    + adjacent(int ligne, int colonne) int
+    + generationSuiv() void
+    + setCelluleO(int ligne, int colonne) void
+}
+
+class Grille {
+    - nbLigne int
+    - nbColonne int
+    - regle Regles*
+    - table vector<vector<ICellule*>>
+
+    + Grille(int lignes, int colonnes, Regles* regle)
+    + ~Grille()
+    + iniGrille() void
+    + affiche() void
+    + getNbLigne() int
+    + getNbColonne() int
+    + SetNbColonne(int colonne) void
+    + SetNbLigne(int ligne) void
+    + getCellule(int ligne, int colonne) ICellule*
+    + adjacent(int ligne, int colonne) int
+    + generationSuiv() void
+    + setCelluleO(int ligne, int colonne) void
+}
+
+class ISimulation {
+    + ~ISimulation()
+    + execute() void
+}
+
+class SimulationTerminale{
+    - grille IGrille*
+    - gestionFichier GestionNomFichier
+    - nbGeneration int
+
+    + SimulationTerminale(Regles* regle, string chemin, int generations)
+    + ~SimulationTerminale()
+    + execute() void
+}
+
+class SimulationGraphique{
+    - Taille_cellule const int
+    - window sf::RenderWindow
+    - cell sf::RectangleShape
+    - grille IGrille*
+    - fichier IGestionFichier*
+    - inPause bool
+    - oPress bool
+    - currentIndex int
+    - timeIntervals std::vector<int>
+
+    + SimulationGraphique(const string& path)
+    + ~SimulationGraphique()
+    + gererEvenements() void
+    + actualiserGrille() void
+    + execute() void
+}
+
+class IGestionFichier {
+    + ~IGestionFichier()
+    + lire() IGrille*
+    + ecrire(IGrille*) void
+    + getPath() string
+    + setPath(string) void
+}
+
+class GestionFichier{
+    - path string
+
+    + GestionFichier(string chemin)
+    + ~GestionFichier()
+    + lire() IGrille*
+    + ecrire(IGrille*) void
+    + getPath() string
+    + setPath(string) void
+}
+
+class GestionNomFichier {
+    - compteur int
+    - pathBase std::string
+    - premiereGeneration bool
+
+    + GestionNomFichier(const string& basePath)
+    + genererNomFichier() string
+}
+
+class Regles {
+    + ~Regles()
+    + celluleSurvit(bool etat, int voisins) bool
+    + celluleNait(bool etat, int voisins) bool
+    + getNbAdjacent() int
+}
+
+class ReglesClassiques{
+    - nbAdjacent int
+
+    + ReglesClassiques()
+    + ~ReglesClassiques()
+    + celluleSurvit(bool etat, int voisins) bool
+    + celluleNait(bool etat, int voisins) bool
+    + getNbAdjacent() int
+}
+
+class Client {
+    - simulation ISimulation*
+    - regle Regles*
+    - cheminDossier string
+    - nombreGenerations int
+
+    + Client()
+    + configurerSimulation() void
+    + lancerSimulation() void
+    + ~Client()
+}
+```
+
+## Diagrammes Sequences
 
 ```mermaid
 sequenceDiagram
@@ -42,3 +208,5 @@ sequenceDiagram
         Grille -->>- SimulationTerminale : 
     end
     SimulationTerminale -->>- Client : ```
+
+
