@@ -18,6 +18,7 @@ SimulationGraphique::~SimulationGraphique() {
 
 }
 
+// pour tracer la grille visible
 void SimulationGraphique::dessinerTraitsGrille() {
     sf::Color couleurTrait(70, 70, 70);
     for (int j = 0; j <= grille->getNbColonne(); ++j) {
@@ -36,7 +37,7 @@ void SimulationGraphique::dessinerTraitsGrille() {
     }
 }
 
-
+// pour afficher les cellule noir morte blanche vivante
 void SimulationGraphique::actualiserGrille() {
     window.clear();
     for (int i = 0; i < grille->getNbLigne(); ++i) {
@@ -62,6 +63,7 @@ void SimulationGraphique::actualiserGrille() {
     window.display();
 }
 
+// gestion de tous les évenements appuie sur touches clic souris etc ...
 void SimulationGraphique::gererEvenements() {
     sf::Event event;
     while (window.pollEvent(event)) { // geère ouverture ou fermeture
@@ -70,52 +72,52 @@ void SimulationGraphique::gererEvenements() {
         }
         if (event.type == sf::Event::KeyPressed)
         {
-            if (event.key.code == sf::Keyboard::Left) {
+            if (event.key.code == sf::Keyboard::Left) {     // decelaire la simulation
                 if (currentIndex < timeIntervals.size() - 1) {
                     currentIndex++;
                     cout << currentIndex << endl;
                 }
             }
-            if (event.key.code == sf::Keyboard::Right)
+            if (event.key.code == sf::Keyboard::Right)      // accelaire la simulation
             {
                 if (currentIndex > 0) {
                     currentIndex--;
                     cout << currentIndex << endl;
                 }
             }
-            if (event.key.code == sf::Keyboard::R)
+            if (event.key.code == sf::Keyboard::R)  // reset la simulation au fichier de base
             {
                 this->grille = fichier->lire();
                 cout << "reset" << endl;
                 actualiserGrille();
                 window.display();
             }
-            if (event.key.code == sf::Keyboard::A)
+            if (event.key.code == sf::Keyboard::A)  // genere une grille aleatoirement
             {
                 this->grille->remplirAleatoire();
                 std::srand(std::time(nullptr));
                 actualiserGrille();
                 window.display();
             }
-            if (event.key.code == sf::Keyboard::Delete) {
+            if (event.key.code == sf::Keyboard::Delete) {   // place que des cellule morte sur la grille
                 this->grille->remplirVide();
                 actualiserGrille();
                 window.display();
             }
-            if (event.key.code == sf::Keyboard::G)
+            if (event.key.code == sf::Keyboard::G)    // affiche ou non la grille
             {
                 gPress = !gPress;
                 actualiserGrille();
                 window.display();
             }
-            if (event.key.code == sf::Keyboard::Space)
+            if (event.key.code == sf::Keyboard::Space)  //mets en pause
             {
                 inPause = !inPause;
             }
-            while (inPause)
+            while (inPause) // toutes les prochaines action seront quand le jeu est en pause 
             {
                 while (window.pollEvent(event)) {
-                    if (event.type == sf::Event::Closed) {
+                    if (event.type == sf::Event::Closed) { // on repete donc certaine action
                         window.close();
                     }
                     if (event.type == sf::Event::KeyPressed) {
@@ -127,7 +129,7 @@ void SimulationGraphique::gererEvenements() {
                             actualiserGrille();
                             window.display();
                         }
-                        if (event.key.code == sf::Keyboard::O) {
+                        if (event.key.code == sf::Keyboard::O) {    // pour mettre des cellule obstacle
                              std::cout << "O appuyé" << std::endl;
                             oPress = !oPress; // Inverser état Opress
                         }
@@ -152,10 +154,10 @@ void SimulationGraphique::gererEvenements() {
                             window.display();
                         }
                     }
-                    if (event.type == sf::Event::MouseButtonPressed) {
+                    if (event.type == sf::Event::MouseButtonPressed) { // gestion de placement des cellules au clic de souris
                         int x = event.mouseButton.x / Taille_cellule;
                         int y = event.mouseButton.y / Taille_cellule;
-                        if (event.mouseButton.button == sf::Mouse::Left && oPress) {
+                        if (event.mouseButton.button == sf::Mouse::Left && oPress) { // pour placer cellule obstacle
                             if (!grille->getCellule(x, y)->estObstacle())
                             {
                             grille->setCelluleO(x, y) ;
@@ -165,7 +167,7 @@ void SimulationGraphique::gererEvenements() {
                             window.display();
                             }
                               
-                        } else if (event.mouseButton.button == sf::Mouse::Left && !oPress)
+                        } else if (event.mouseButton.button == sf::Mouse::Left && !oPress) // pour placer cellule obstacle
                         {
                             if (!grille->getCellule(x, y)->estObstacle())
                             {
@@ -176,7 +178,7 @@ void SimulationGraphique::gererEvenements() {
                                 window.display(); 
                             } 
                         }
-                        if (event.mouseButton.button == sf::Mouse::Right && !oPress) {
+                        if (event.mouseButton.button == sf::Mouse::Right && !oPress) {  // pour suppr cellule obstacle
                             //grille->setCelluleO(x, y);
                             if (!grille->getCellule(x, y)->estObstacle())
                             {
@@ -187,7 +189,7 @@ void SimulationGraphique::gererEvenements() {
                                 window.display();
                             }
                         }
-                        if (event.mouseButton.button == sf::Mouse::Right && oPress) {
+                        if (event.mouseButton.button == sf::Mouse::Right && oPress) { // pour suppr cellule
                             if (grille->getCellule(x, y)->estObstacle())
                             {
                                 grille->setCelluleO(x, y);
@@ -213,7 +215,7 @@ void SimulationGraphique::execute() {
         grille->generationSuiv();  // Avancer à la génération suivante
         sf::sleep(sf::milliseconds(timeIntervals[currentIndex]));  // Attendre avant la prochaine génération
     }
-    string nomFichier = gestionNomFichier->genererNomFichier();
+    string nomFichier = gestionNomFichier->genererNomFichier(); //ecrire dans le fichier apres la fermeture
     fichier->setPath(nomFichier);
     fichier->ecrire(grille);
 }

@@ -6,7 +6,7 @@ private:
 public:
     CelluleObstacle();
     ~CelluleObstacle();
-    bool estVivant() const override;
+    bool estVivant() const override; // getteur
     void setEtat(bool) override;
-    bool estObstacle() const override {return true;}
+    bool estObstacle() const override {return true;} // pour savoir que la cellule est obstacle obstacle
 };
