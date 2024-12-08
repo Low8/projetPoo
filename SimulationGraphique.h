@@ -11,13 +11,16 @@ private:
     sf::RectangleShape cell;
     IGrille* grille;
     IGestionFichier* fichier;
+    GestionNomFichier* gestionNomFichier;
     bool inPause;
     bool oPress;
+    bool gPress;
     int currentIndex;
     std::vector<int> timeIntervals;
 public:
     SimulationGraphique(const string& path);
     ~SimulationGraphique();
+    void dessinerTraitsGrille();
     void gererEvenements();
     void actualiserGrille();
     void execute() override;
