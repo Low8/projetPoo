@@ -9,16 +9,15 @@ void Client::configurerSimulation() {
     Regles* regle = new ReglesClassiques;
     int choix;
 
-    /*cout << "Entrez le chemin du dossier pour les générations : ";
-    cin >> cheminDossier;*/
-    cheminDossier = "generation";
+    cout << "Entrez le nom du fichier pour les générations : ";
+    cin >> cheminDossier;
 
-    std::cout << "Choisissez le mode d'affichage: 1 / Console ou 2 / Interface graphique / 3 Console et Interface graphique";
+    std::cout << "Choisissez le mode d'affichage: Console(1) ou Interface graphique(2)";
     std::cin >> choix;
 
     switch(choix){
         case 1:
-        { 
+        {
             cout << "Entrez le nombre de générations à simuler : ";
             cin >> nombreGenerations;
     
